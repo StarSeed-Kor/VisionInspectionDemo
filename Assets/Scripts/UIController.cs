@@ -44,13 +44,13 @@ public class UIController : MonoBehaviour
 
         if (txtResult != null)
         {
-            txtResult.text  = result.StatusText;
+            txtResult.text = $"결과: {result.StatusText} ";
             txtResult.color = result.isDefect ? colorNG : colorOK;
         }
 
-        if (txtFileName  != null) txtFileName.text  = result.fileName;
+        if (txtFileName  != null) txtFileName.text  = $"파일명: {result.fileName}";
         if (txtRatio     != null) txtRatio.text      = $"Black 비율: {result.RatioText}";
-        if (txtTimestamp != null) txtTimestamp.text  = $"{result.timestamp:HH:mm:ss}";
+        if (txtTimestamp != null) txtTimestamp.text  = $"시간: {result.timestamp:HH:mm:ss}";
     }
 
     /// <summary>에러 메시지 표시</summary>

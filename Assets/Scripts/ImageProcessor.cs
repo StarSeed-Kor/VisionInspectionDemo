@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 이미지 처리 모듈: Grayscale 변환 → Threshold 이진화
@@ -9,10 +11,24 @@ public class ImageProcessor : MonoBehaviour
     [Range(0f, 1f)]
     [Tooltip("이 값보다 밝은 픽셀 → White / 어두운 픽셀 → Black")]
     public float threshold = 0.5f;
+    public Slider threshold_Slider;
+    public TextMeshProUGUI threshold_Text;
 
     [Header("리사이즈 최적화")]
     public bool enableResize   = false;
     public int  resizeMaxWidth = 512;
+
+    public void OnValueChanged_Threshold(float _value)
+    {
+        threshold = _value;
+        threshold_Text.text = _value.ToString("N2");
+    }
+
+    private void Start()
+    {
+        threshold_Slider.value = threshold;
+        OnValueChanged_Threshold(threshold);
+    }
 
     public Texture2D Process(Texture2D source)
     {

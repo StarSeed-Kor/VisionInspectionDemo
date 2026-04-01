@@ -1,6 +1,6 @@
 # VisionInspectionDemo v3 — Unity 6 씬 설정 가이드
 
----
+\---
 
 ## 📁 Scripts 폴더 구조
 
@@ -19,12 +19,12 @@ Assets/VisionInspectionDemo/Scripts/
     └── ImageLoader.cs                ← 파일 → Texture2D 로드
 ```
 
----
+\---
 
 ## 🎬 Hierarchy 구성
 
 ```
-[Scene: InspectionScene]
+\[Scene: InspectionScene]
 │
 ├── Managers                          (Empty GameObject)
 │   ├── InspectionManager.cs
@@ -33,71 +33,56 @@ Assets/VisionInspectionDemo/Scripts/
 │   └── ImageLoader.cs
 │
 └── Canvas  (Screen Space - Overlay)
-    └── Panel_Main                    ← UIController.cs
+    └── Panel\_Main                    ← UIController.cs
         │                               NativeFilePickerController.cs
-        ├── RawImage_Original         ← 원본 이미지
-        ├── RawImage_Processed        ← 처리 이미지
-        ├── Txt_Result   (TMP)        ← "OK" / "NG"
-        ├── Txt_FileName (TMP)
-        ├── Txt_Ratio    (TMP)
-        ├── Txt_Timestamp(TMP)
-        ├── Panel_Error               (기본 비활성)
-        │   └── Txt_Error (TMP)
-        └── Btn_SelectFile            → NativeFilePickerController.OpenFilePicker()
+        ├── RawImage\_Original         ← 원본 이미지
+        ├── RawImage\_Processed        ← 처리 이미지
+        ├── Txt\_Result   (TMP)        ← "OK" / "NG"
+        ├── Txt\_FileName (TMP)
+        ├── Txt\_Ratio    (TMP)
+        ├── Txt\_Timestamp(TMP)
+        ├── Panel\_Error               (기본 비활성)
+        │   └── Txt\_Error (TMP)
+        └── Btn\_SelectFile            → NativeFilePickerController.OpenFilePicker()
 ```
 
----
+\---
 
 ## 🔗 컴포넌트 연결 체크리스트
 
 ### ① Managers 오브젝트
 
-| 컴포넌트 | 필드 | 연결 대상 |
-|----------|------|----------|
-| InspectionManager | imageLoader | Managers/ImageLoader |
-| | imageProcessor | Managers/ImageProcessor |
-| | defectDetector | Managers/DefectDetector |
-| | uiController | Panel_Main (UIController) |
+|컴포넌트|필드|연결 대상|
+|-|-|-|
+|InspectionManager|imageLoader|Managers/ImageLoader|
+||imageProcessor|Managers/ImageProcessor|
+||defectDetector|Managers/DefectDetector|
+||uiController|Panel\_Main (UIController)|
 
-### ② Panel_Main → UIController
+### ② Panel\_Main → UIController
 
-| 필드 | 연결 대상 |
-|------|----------|
-| rawImageOriginal | RawImage_Original |
-| rawImageProcessed | RawImage_Processed |
-| txtResult | Txt_Result |
-| txtFileName | Txt_FileName |
-| txtRatio | Txt_Ratio |
-| txtTimestamp | Txt_Timestamp |
-| panelError | Panel_Error |
-| txtError | Panel_Error/Txt_Error |
+|필드|연결 대상|
+|-|-|
+|rawImageOriginal|RawImage\_Original|
+|rawImageProcessed|RawImage\_Processed|
+|txtResult|Txt\_Result|
+|txtFileName|Txt\_FileName|
+|txtRatio|Txt\_Ratio|
+|txtTimestamp|Txt\_Timestamp|
+|panelError|Panel\_Error|
+|txtError|Panel\_Error/Txt\_Error|
 
-### ③ Panel_Main → NativeFilePickerController
+### ③ Panel\_Main → NativeFilePickerController
 
-| 필드 | 연결 대상 |
-|------|----------|
-| inspectionManager | Managers/InspectionManager |
+|필드|연결 대상|
+|-|-|
+|inspectionManager|Managers/InspectionManager|
 
 ### ④ 버튼 OnClick
 
-| 버튼 | 함수 |
-|------|------|
-| Btn_SelectFile | NativeFilePickerController.OpenFilePicker() |
+|버튼|함수|
+|-|-|
+|Btn\_SelectFile|NativeFilePickerController.OpenFilePicker()|
 
----
-
-## 📦 파일 선택 창 설치 (빌드 배포 시)
-
-> Unity Editor 플레이 테스트는 설치 없이 바로 동작합니다.
-
-### 방법 A — SimpleFileBrowser (권장, 무료)
-1. Asset Store → **"Runtime File Browser"** (Süleyman Yasir KULA) 임포트
-2. `NativeFilePickerController.cs` → `① SimpleFileBrowser` 블록 주석 해제
-3. `③ 에디터 전용` 블록 주석 처리
-
-### 방법 B — StandaloneFileBrowser (GitHub 오픈소스)
-1. https://github.com/gkngkc/UnityStandaloneFileBrowser → `.unitypackage` 다운로드 후 임포트
-2. `NativeFilePickerController.cs` → `② SFB` 블록 주석 해제
-3. `③ 에디터 전용` 블록 주석 처리
-
+\---
 

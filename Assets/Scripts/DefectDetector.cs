@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 불량 판정 모듈: 이진화 이미지의 Black 픽셀 비율로 OK/NG 결정
@@ -9,6 +11,20 @@ public class DefectDetector : MonoBehaviour
     [Range(0f, 1f)]
     [Tooltip("Black 픽셀 비율이 이 값을 초과하면 NG")]
     public float defectThreshold = 0.3f;
+    public Slider defectThreshold_Slider;
+    public TextMeshProUGUI defectThreshold_Text;
+
+    public void OnValueChanged_DefectThreshold(float _value)
+    {
+        defectThreshold = _value;
+        defectThreshold_Text.text = _value.ToString("N2");
+    }
+
+    private void Start()
+    {
+        defectThreshold_Slider.value = defectThreshold;
+        OnValueChanged_DefectThreshold(defectThreshold);
+    }
 
     public DetectionData Check(Texture2D binaryTex)
     {

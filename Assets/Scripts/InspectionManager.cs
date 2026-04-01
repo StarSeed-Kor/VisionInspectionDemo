@@ -16,6 +16,56 @@ public class InspectionManager : MonoBehaviour
 
     public InspectionResult LastResult { get; private set; }
 
+    public void ReRunInspection()
+    {
+        if (uiController.rawImageOriginal.texture == null)
+        {
+            uiController.ShowError("먼저 '파일 선택'을 해야 합니다.");
+            return;
+        }
+
+        try
+        {
+            // 1. 이미지 로드
+            Texture2D raw = uiController.rawImageOriginal.texture as Texture2D;
+            if (raw == null)
+            {
+                uiController.ShowError("이미지를 불러올 수 없습니다.");
+                return;
+            }
+
+            // 2. 이미지 처리 (Grayscale + Threshold 이진화)
+            Texture2D processed = imageProcessor.Process(raw);
+
+            // 3. 불량 판정
+            DetectionData detection = defectDetector.Check(processed);
+
+            string lastFilePath = LastResult.filePath;
+
+            // 4. 결과 객체 생성
+            LastResult = new InspectionResult
+            {
+                filePath = lastFilePath,
+                fileName = System.IO.Path.GetFileName(lastFilePath),
+                isDefect = detection.isDefect,
+                blackRatio = detection.blackRatio,
+                rawTex = raw,
+                processedTex = processed,
+                timestamp = DateTime.Now
+            };
+
+            // 5. UI 업데이트
+            uiController.ShowResult(LastResult);
+
+            Debug.Log($"[InspectionManager] {LastResult.fileName} → {LastResult.StatusText}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[InspectionManager] 예외: {e.Message}");
+            uiController.ShowError($"오류: {e.Message}");
+        }
+    }
+
     /// <summary>
     /// 단일 이미지 검사 실행 (NativeFilePickerController 콜백에서 호출)
     /// </summary>

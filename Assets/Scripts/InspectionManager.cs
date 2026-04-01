@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Diagnostics;
 
 /// <summary>
 /// 비전검사 전체 흐름을 관리하는 핵심 컨트롤러
@@ -34,11 +35,17 @@ public class InspectionManager : MonoBehaviour
                 return;
             }
 
-            // 2. 이미지 처리 (Grayscale + Threshold 이진화)
+            // 2. 처리 시간 측정 시작
+            Stopwatch sw = Stopwatch.StartNew();
+
+            // 3. 이미지 처리 (Grayscale + Threshold 이진화)
             Texture2D processed = imageProcessor.Process(raw);
 
-            // 3. 불량 판정
+            // 4. 불량 판정
             DetectionData detection = defectDetector.Check(processed);
+
+            // 5. 처리 시간 측정 종료
+            sw.Stop();
 
             string lastFilePath = LastResult.filePath;
 
@@ -51,17 +58,17 @@ public class InspectionManager : MonoBehaviour
                 blackRatio = detection.blackRatio,
                 rawTex = raw,
                 processedTex = processed,
-                timestamp = DateTime.Now
+                processingTimeMs = sw.ElapsedMilliseconds
             };
 
             // 5. UI 업데이트
             uiController.ShowResult(LastResult);
 
-            Debug.Log($"[InspectionManager] {LastResult.fileName} → {LastResult.StatusText}");
+            UnityEngine.Debug.Log($"[InspectionManager] {LastResult.fileName} → {LastResult.StatusText}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"[InspectionManager] 예외: {e.Message}");
+            UnityEngine.Debug.LogError($"[InspectionManager] 예외: {e.Message}");
             uiController.ShowError($"오류: {e.Message}");
         }
     }
@@ -81,32 +88,38 @@ public class InspectionManager : MonoBehaviour
                 return;
             }
 
-            // 2. 이미지 처리 (Grayscale + Threshold 이진화)
+            // 2. 처리 시간 측정 시작
+            Stopwatch sw = Stopwatch.StartNew();
+
+            // 3. 이미지 처리 (Grayscale + Threshold 이진화)
             Texture2D processed = imageProcessor.Process(raw);
 
-            // 3. 불량 판정
+            // 4. 불량 판정
             DetectionData detection = defectDetector.Check(processed);
 
-            // 4. 결과 객체 생성
+            // 5. 처리 시간 측정 종료
+            sw.Stop();
+
+            // 6. 결과 객체 생성
             LastResult = new InspectionResult
             {
-                filePath     = path,
-                fileName     = System.IO.Path.GetFileName(path),
-                isDefect     = detection.isDefect,
-                blackRatio   = detection.blackRatio,
-                rawTex       = raw,
+                filePath = path,
+                fileName = System.IO.Path.GetFileName(path),
+                isDefect = detection.isDefect,
+                blackRatio = detection.blackRatio,
+                rawTex = raw,
                 processedTex = processed,
-                timestamp    = DateTime.Now
+                processingTimeMs = sw.ElapsedMilliseconds
             };
 
-            // 5. UI 업데이트
+            // 7. UI 업데이트
             uiController.ShowResult(LastResult);
 
-            Debug.Log($"[InspectionManager] {LastResult.fileName} → {LastResult.StatusText}");
+            UnityEngine.Debug.Log($"[InspectionManager] {LastResult.fileName} → {LastResult.StatusText} ({LastResult.processingTimeMs}ms)");
         }
         catch (Exception e)
         {
-            Debug.LogError($"[InspectionManager] 예외: {e.Message}");
+            UnityEngine.Debug.LogError($"[InspectionManager] 예외: {e.Message}");
             uiController.ShowError($"오류: {e.Message}");
         }
     }
@@ -116,14 +129,17 @@ public class InspectionManager : MonoBehaviour
 [Serializable]
 public class InspectionResult
 {
-    public string    filePath;
-    public string    fileName;
-    public bool      isDefect;
-    public float     blackRatio;
+    public string filePath;
+    public string fileName;
+    public bool isDefect;
+    public float blackRatio;
     public Texture2D rawTex;
     public Texture2D processedTex;
-    public DateTime  timestamp;
+    public long processingTimeMs;   // 이미지 처리 소요 시간 (ms)
 
     public string StatusText => isDefect ? "NG" : "OK";
-    public string RatioText  => $"{blackRatio * 100f:F1}%";
+    public string RatioText => $"{blackRatio * 100f:F1}%";
+    public string ProcessingTimeText => processingTimeMs < 1000
+        ? $"{processingTimeMs}ms"
+        : $"{processingTimeMs / 1000f:F2}s";
 }

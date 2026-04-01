@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2480,7 +2480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2655,7 +2655,7 @@ GameObject:
   - component: {fileID: 1915309277}
   - component: {fileID: 1915309276}
   m_Layer: 5
-  m_Name: Text (TMP)_Timestamp
+  m_Name: Text (TMP)_ProcessingTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2700,7 +2700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TimeStamp
+  m_text: ProcessingTime
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0dfb82ecfa143f142a88e4f29734f126, type: 2}
   m_sharedMaterial: {fileID: 9077431965411152846, guid: 0dfb82ecfa143f142a88e4f29734f126, type: 2}
@@ -2885,7 +2885,7 @@ MonoBehaviour:
   txtResult: {fileID: 2136983885}
   txtFileName: {fileID: 1130444671}
   txtRatio: {fileID: 1054990237}
-  txtTimestamp: {fileID: 1915309276}
+  txtProcessingTime: {fileID: 1915309276}
   colorOK: {r: 0.2, g: 0.85, b: 0.2, a: 1}
   colorNG: {r: 0.9, g: 0.2, b: 0.2, a: 1}
   colorError: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -3149,7 +3149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
